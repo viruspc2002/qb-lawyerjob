@@ -13,7 +13,7 @@ QBCore.Commands.Add("setlawyer", "Register someone as a lawyer", {{name="id", he
                 lastname = OtherPlayer.PlayerData.charinfo.lastname,
                 citizenid = OtherPlayer.PlayerData.citizenid,
             }
-            OtherPlayer.Functions.SetJob("lawyer")
+            OtherPlayer.Functions.SetJob("lawyer", 0)
             OtherPlayer.Functions.AddItem("lawyerpass", 1, false, lawyerInfo)
             TriggerClientEvent("QBCore:Notify", source, "You have " .. OtherPlayer.PlayerData.charinfo.firstname .. " " .. OtherPlayer.PlayerData.charinfo.lastname .. " hired as a lawyer")
             TriggerClientEvent("QBCore:Notify", OtherPlayer.PlayerData.source, "You are now a lawyer")
@@ -31,7 +31,8 @@ QBCore.Commands.Add("removelawyer", "Remove someone as a lawyer", {{name="id", h
     local playerId = tonumber(args[1])
     local OtherPlayer = QBCore.Functions.GetPlayer(playerId)
     if Player.PlayerData.job.name == "judge" then
-        if OtherPlayer ~= nil then 
+        if OtherPlayer ~= nil then
+	    OtherPlayer.Functions.SetJob("unemployed", 0)
             TriggerClientEvent("QBCore:Notify", OtherPlayer.PlayerData.source, "You are now unemployed")
             TriggerClientEvent("QBCore:Notify", source, "You have " .. OtherPlayer.PlayerData.charinfo.firstname .. " " .. OtherPlayer.PlayerData.charinfo.lastname .. "dismiss as a lawyer")
         else
